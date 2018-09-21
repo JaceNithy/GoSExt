@@ -116,7 +116,7 @@ local function RDamage()
         return 0 
     end
 	local dmg = scale[player.levelData.lvl - 5];
-	local bonus = player.baseDamage;
+	local bonus = player.bonusDamage;
 	return (dmg + (bonus * 0.6));
 end
 

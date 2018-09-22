@@ -69,7 +69,7 @@ local function GetEnemyHeroesInRange(pos, range)
 end
 
 local function LoadingMenu()
-    NickySoraka = MenuElement({type = MENU, id = "Pyke", name = "[Nicky]Pyke"})
+    NickySoraka = MenuElement({type = MENU, id = "Soraka", name = "[Nicky]Soraka"})
 	--QS
 	NickySoraka:MenuElement({id = "QS", name = "(Q) Settings", type = MENU})
     NickySoraka.QS:MenuElement({id = "CQ", name = "Use [Q] In Combo", value = true})

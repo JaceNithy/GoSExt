@@ -127,7 +127,7 @@ end
 
 local function spear(unit)
 	if Game.CanUseSpell(0) ~= 0 then return end
-	if (Game.CanUseSpell(2) ~= 0 == 0 and unit.pos:DistanceTo(playerPos) < NickyPyke.Combo.RangeD:Value()) and not HasBuff(player, "PykeQ") and NickyPyke.Combo.CW:Value() then return end
+	if (Game.CanUseSpell(2) == 0 and unit.pos:DistanceTo(playerPos) < NickyPyke.Combo.RangeD:Value()) and not HasBuff(player, "PykeQ") and NickyPyke.Combo.CW:Value() then return end
 	if unit.pos:DistanceTo(playerPos) > QRange() then return end
 
 	local qpred = unit:GetPrediction(2000, 0.25)

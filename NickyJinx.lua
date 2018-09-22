@@ -199,7 +199,7 @@ local function JinxR()
     local target = _G.SDK.TargetSelector:GetTarget(5000)
     
     local dist = playerPos:DistanceTo(target);
-    if not target.dead and dist <= NickyJinx.RS.AutoR:get() and dist > 1000 then
+    if not target.dead and dist <= NickyJinx.RS.AutoR:get() and dist > 1000 and getdmg("R", target) > target.health then
         speedR = CalCULED(dist)
         local Rpred = unit:GetPrediction(1700, 0.25)
 		if not Rpred then return end

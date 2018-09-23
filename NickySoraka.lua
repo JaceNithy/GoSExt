@@ -68,6 +68,15 @@ local function GetEnemyHeroesInRange(pos, range)
     return Count
 end
 
+local function GetHeroByHandle(handle)
+	for i = 1, Game.HeroCount() do
+		local h = Game.Hero(i)
+		if h.handle == handle then
+			return h
+		end
+	end
+end
+
 local function LoadingMenu()
     NickySoraka = MenuElement({type = MENU, id = "Soraka", name = "[Nicky]Soraka"})
 	--QS
@@ -87,30 +96,15 @@ local function LoadingMenu()
     NickySoraka:MenuElement({id = "RS", name = "(R) Settings", type = MENU})
     NickySoraka.RS:MenuElement({id = "CR", name = "Use to Save Allies", value = true})
     NickySoraka.RS:MenuElement({id = "AutoR", name = "Cast if ally health is < to %", value = 10, min = 1, max = 100, step = 1})
+    --Draw
+    NickySoraka:MenuElement({id = "DD", name = "(Draws) Settings", type = MENU})
+    NickySoraka.DD:MenuElement({id = "DQ", name = "Draw [Q]", value = true})
+    NickySoraka.DD:MenuElement({id = "DW", name = "Draw [W]", value = true})
+    NickySoraka.DD:MenuElement({id = "DE", name = "Draw [E]", value = true})
 end
 
 local function AutoSilence(spell)
-    if Game.CanUseSpell(2) == 0 and NickySoraka.ES.inter:Value() then
-		local champ = spell.activeSpell.owner
-		if champ.team == TEAM_ENEMY then
-			local slot = spell.activeSpellSlot
-			if playerPos:DistanceTo(champ.pos) <= 925 then
-				if spell.name == "SummonerTeleport" then
-                    Control.CastSpell(HK_E, spell.owner.pos)
-				else
-					local spells = spellsToSilence[champ.charName]
-					if spells then
-						for i = 1, #spells do
-							if slot == spells[i] then
-                                Control.CastSpell(HK_E, spell.owner.pos)
-								break
-							end
-						end
-					end
-				end
-			end
-		end
-	end
+   
 end 
 
 local function CastW()
@@ -148,8 +142,8 @@ end
 local function CastQ(unit)
     if Game.CanUseSpell(0) == 0 then
         if unit.pos:DistanceTo(playerPos) <= 800 then
-            local qpred = unit:GetPrediction(2000, 0.25)
-            Control.CastSpell(HK_Q, qpred)
+           -- local qpred = unit:GetPrediction(2000, 0.25)
+            Control.CastSpell(HK_Q, unit.pos)
         end 
     end 
 end
@@ -164,6 +158,19 @@ local function CastE(unit)
     end 
 end 
 
+local function OnDraw()
+    if NickySoraka.DD.DQ:Value() then 
+        Draw.Circle(myHero.pos, 800, 0, Draw.Color(100, 192, 57, 43))
+    end
+    
+    if NickySoraka.DD.DW:Value()  then 
+        Draw.Circle(myHero.pos, 550, 0, Draw.Color(100, 192, 57, 43))
+    end
+
+    if NickySoraka.DD.DE:Value()  then 
+        Draw.Circle(myHero.pos, 925, 0, Draw.Color(100, 192, 57, 43))
+    end
+end 
 
 local function OnLoading()
     LoadingMenu()
@@ -187,3 +194,4 @@ end
 
 Callback.Add("Tick", function() OnTick() end)
 Callback.Add("Load", function() OnLoading() end)
+Callback.Add("Draw", function() OnDraw() end)
